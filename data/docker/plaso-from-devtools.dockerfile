@@ -47,9 +47,10 @@ RUN apt-get -y install python-mock
 #Checkout the repo
 WORKDIR /home/plaso/
 RUN git clone https://github.com/onager/l2tdevtools.git
-RUN git checkouit docker_experiments
 
 WORKDIR /home/plaso/l2tdevtools
+RUN git checkout docker_experiments
+
 RUN PYTHONPATH=. ./tools/build.py --config=/data/docker/projects.ini dpkg
 WORKDIR /home/plaso/l2tdevtool/build
 RUN dpkg -i *.deb
