@@ -32,7 +32,7 @@ RUN apt-get -y install autoconf automake autopoint build-essential libtool pkg-c
 
 # Pefile won't install the required version if we don't specify the
 # index URL to use
-RUN pip install -i https://pypi.python.org/pypi/ pefile==1.2.10-139
+# RUN pip install -i https://pypi.python.org/pypi/ pefile==1.2.10-139
 
 # Required packages to build tsk
 RUN apt-get -y install zlib1g-dev
