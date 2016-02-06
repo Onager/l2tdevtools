@@ -43,6 +43,9 @@ Run apt-get -y install libtalloc-dev
 # Extra package for running plaso tests
 RUN apt-get -y install python-mock
 
+# more deps
+RUN apt-get -y install quilt python3-dev python3-all byacc devscripts python3-setuptools libfuse-dev libssl-dev
+
 ########
 #Checkout the repo
 WORKDIR /home/plaso/
@@ -51,7 +54,7 @@ RUN git clone https://github.com/onager/l2tdevtools.git
 WORKDIR /home/plaso/l2tdevtools
 RUN git checkout docker_experiments
 
-RUN PYTHONPATH=. ./tools/build.py --config=/data/docker/projects.ini dpkg
+RUN PYTHONPATH=. ./tools/build.py --config=./data/docker/projects.ini dpkg
 WORKDIR /home/plaso/l2tdevtool/build
 RUN dpkg -i *.deb
 
