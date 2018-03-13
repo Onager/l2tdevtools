@@ -166,7 +166,7 @@ class ProjectVersionDefinition(object):
       str: earliest version or None.
     """
     if not self._version_string_parts:
-      return
+      return None
 
     return self._version_string_parts[0]
 
@@ -188,7 +188,7 @@ class ProjectDefinitionReader(object):
     try:
       return config_parser.get(section_name, value_name)
     except configparser.NoOptionError:
-      return
+      return None
 
   def Read(self, file_object):
     """Reads project definitions.

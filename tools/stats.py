@@ -49,7 +49,7 @@ class StatsDefinitionReader(object):
     try:
       return config_parser.get(section_name, value_name).decode('utf-8')
     except configparser.NoOptionError:
-      return
+      return None
 
   def ReadProjectsPerOrganization(self, file_object):
     """Reads the projects per organization.

@@ -58,7 +58,7 @@ class ReviewFile(object):
       int: codereview issue number.
     """
     if not self._contents:
-      return
+      return None
 
     try:
       return int(self._contents, 10)

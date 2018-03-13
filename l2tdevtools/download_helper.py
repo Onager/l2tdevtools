@@ -60,13 +60,13 @@ class DownloadHelper(object):
         logging.warning(
             'Unable to download URL: {0:s} with error: {1!s}'.format(
                 download_url, exception))
-        return
+        return None
 
       if url_object.code != 200:
         logging.warning(
             'Unable to download URL: {0:s} with status code: {1:d}'.format(
                 download_url, url_object.code))
-        return
+        return None
 
       with open(filename, 'wb') as file_object:
         file_object.write(url_object.read())
@@ -85,7 +85,7 @@ class DownloadHelper(object):
       str: page content if successful, None otherwise.
     """
     if not download_url:
-      return
+      return None
 
     if self._cached_url != download_url:
       try:
@@ -94,10 +94,10 @@ class DownloadHelper(object):
         logging.warning(
             'Unable to download URL: {0:s} with error: {1!s}'.format(
                 download_url, exception))
-        return
+        return None
 
       if url_object.code != 200:
-        return
+        return None
 
       page_content = url_object.read()
 
@@ -137,7 +137,7 @@ class ProjectDownloadHelper(DownloadHelper):
     if not download_url:
       logging.warning('Unable to determine download URL for: {0:s}'.format(
           project_name))
-      return
+      return None
 
     filename = self.DownloadFile(download_url)
 
@@ -240,7 +240,7 @@ class GitHubReleasesDownloadHelper(ProjectDownloadHelper):
 
     page_content = self.DownloadPageContent(download_url)
     if not page_content:
-      return
+      return None
 
     # The format of the project download URL is:
     # /{organization}/{repository}/releases/download/{git tag}/
@@ -352,7 +352,7 @@ class GitHubReleasesDownloadHelper(ProjectDownloadHelper):
       return 'https://github.com{0:s}'.format(matches[0][:-1])
 
     if matches and len(matches) != 1:
-      return
+      return None
 
     # The format of the project archive download URL is:
     # /{organization}/{repository}/archive/{version}.tar.gz
@@ -497,7 +497,7 @@ class PyPIDownloadHelper(ProjectDownloadHelper):
 
     page_content = self.DownloadPageContent(download_url)
     if not page_content:
-      return
+      return None
 
     # The format of the project download URL is:
     # https://pypi.python.org/packages/.*/{project name}-{version}.{extension}
@@ -587,7 +587,7 @@ class SourceForgeDownloadHelper(ProjectDownloadHelper):
       matches = re.findall(expression_string, page_content)
 
     if not matches:
-      return
+      return None
 
     numeric_matches = [''.join(match.split('.')) for match in matches]
     return matches[numeric_matches.index(max(numeric_matches))]
@@ -685,7 +685,7 @@ class ZlibDownloadHelper(ProjectDownloadHelper):
 
     page_content = self.DownloadPageContent(download_url)
     if not page_content:
-      return
+      return None
 
     # The format of the project download URL is:
     # http://zlib.net/{project name}-{version}.tar.gz
@@ -762,6 +762,6 @@ class DownloadHelperFactory(object):
       download_helper_class = None
 
     if not download_helper_class:
-      return
+      return None
 
     return download_helper_class(download_url)

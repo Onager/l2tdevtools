@@ -32,7 +32,7 @@ class NetRCFile(object):
       list[str]: .netrc values for github.com or None.
     """
     if not self._contents:
-      return
+      return None
 
     # Note that according to GN's manual on .netrc file, the credential
     # tokens "may be separated by spaces, tabs, or new-lines".
@@ -51,7 +51,7 @@ class NetRCFile(object):
     """
     values = self._GetGitHubValues()
     if not values:
-      return
+      return None
 
     for value_index, value in enumerate(values):
       if value == 'password':
@@ -65,7 +65,7 @@ class NetRCFile(object):
     """
     values = self._GetGitHubValues()
     if not values:
-      return
+      return None
 
     login_value = None
     for value_index, value in enumerate(values):

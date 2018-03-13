@@ -89,7 +89,7 @@ class GitHubHelper(object):
 
     except errors.ConnectivityError as exception:
       logging.warning('{0!s}'.format(exception))
-      return
+      return None
 
     if response_data:
       return json.loads(response_data)

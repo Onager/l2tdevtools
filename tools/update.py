@@ -97,7 +97,7 @@ class GithubRepoDownloadHelper(download_helper.DownloadHelper):
     if not sub_directory:
       logging.error('CPU architecture: {0:s} not supported.'.format(
           cpu_architecture))
-      return
+      return None
 
     return sub_directory
 
@@ -121,7 +121,7 @@ class GithubRepoDownloadHelper(download_helper.DownloadHelper):
         preferred_machine_type=preferred_machine_type,
         preferred_operating_system=preferred_operating_system)
     if not sub_directory:
-      return
+      return None
 
     if use_api:
       # TODO: add support for branch.
@@ -155,11 +155,11 @@ class GithubRepoDownloadHelper(download_helper.DownloadHelper):
         preferred_operating_system=preferred_operating_system, use_api=use_api)
     if not download_url:
       logging.info('Missing download URL.')
-      return
+      return None
 
     page_content = self.DownloadPageContent(download_url)
     if not page_content:
-      return
+      return None
 
     # TODO: skip SHA256SUMS
 
@@ -194,7 +194,7 @@ class GithubRepoDownloadHelper(download_helper.DownloadHelper):
           preferred_machine_type=preferred_machine_type,
           preferred_operating_system=preferred_operating_system)
       if not sub_directory:
-        return
+        return None
 
       # The format of the download URL is:
       # <a href="{path}" class="js-directory-link"

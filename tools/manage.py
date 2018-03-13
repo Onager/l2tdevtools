@@ -74,7 +74,7 @@ class COPRProjectManager(object):
     page_content = self._download_helper.DownloadPageContent(download_url)
     if not page_content:
       logging.error('Unable to retrieve repomd.xml.')
-      return
+      return None
 
     repomd_xml = ElementTree.fromstring(page_content)
     xml_elements = repomd_xml.findall(self._PRIMARY_XML_XPATH)
@@ -301,7 +301,7 @@ class LaunchpadPPAManager(object):
         download_url, encoding=None)
     if not ppa_sources:
       logging.error('Unable to retrieve PPA sources list.')
-      return
+      return None
 
     ppa_sources = zlib.decompress(ppa_sources, 16 + zlib.MAX_WBITS)
 
@@ -311,7 +311,7 @@ class LaunchpadPPAManager(object):
       logging.error(
           'Unable to decode PPA sources list with error: {0!s}'.format(
               exception))
-      return
+      return None
 
     packages = {}
     for line in ppa_sources.split('\n'):
@@ -768,7 +768,7 @@ class PackagesManager(object):
             'Use the gift PPA instead. For more info see: {0:s}'.format(
                 wiki_url))
 
-      return
+      return None
 
     elif operating_system == 'Windows':
       if cpu_architecture == 'x86':
@@ -780,12 +780,12 @@ class PackagesManager(object):
       else:
         logging.error('CPU architecture: {0:s} not supported.'.format(
             cpu_architecture))
-        return
+        return None
 
     else:
       logging.error('Operating system: {0:s} not supported.'.format(
           operating_system))
-      return
+      return None
 
     return sub_directory
 
