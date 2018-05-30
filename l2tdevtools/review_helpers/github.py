@@ -62,6 +62,25 @@ class GitHubHelper(object):
 
     return True
 
+  def GetCommitHistory(self):
+    """Retrieves Github commit data for a project.
+
+    Returns:
+      dict[str, object]: JSON response from GitHub API.
+
+    Raises:
+      ConnectivityError: If the request to GitHub was not successful.
+    """
+
+    github_url = ('https://api.github.com/repos/'
+                  '{0:s}/{1:s}/commits?sha=master').format(
+        self._organization, self._project)
+
+    response_data = self._url_lib_helper.Request(github_url)
+
+    commit_documents = json.loads(response_data)
+    return commit_documents
+
   def GetForkGitRepoUrl(self, username):
     """Retrieves the git repository URL of a fork.
 
