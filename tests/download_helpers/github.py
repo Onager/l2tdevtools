@@ -22,8 +22,6 @@ class DocoptGitHubReleasesDownloadHelperTest(test_lib.BaseTestCase):
 
   _PROJECT_ORGANIZATION = 'docopt'
   _PROJECT_NAME = 'docopt'
-  # Hardcoded version to check parsing of the GitHub page, as the GitHub API
-  # does not return release information for this project.
   _PROJECT_VERSION = '0.6.2'
 
   def testGetLatestVersion(self):
@@ -78,24 +76,21 @@ class LibyalGitHubReleasesDownloadHelperTest(test_lib.BaseTestCase):
     download_helper = github.GitHubReleasesDownloadHelper(self._DOWNLOAD_URL)
 
     latest_version = download_helper.GetLatestVersion(self._PROJECT_NAME, None)
-    latest_version_api = download_helper.GetLatestVersionWithAPI(None)
 
-    self.assertEqual(latest_version, latest_version_api)
+    self.assertEqual(latest_version, self._PROJECT_VERSION)
 
   def testGetDownloadURL(self):
     """Tests the GetDownloadURL functions."""
     download_helper = github.GitHubReleasesDownloadHelper(self._DOWNLOAD_URL)
 
-    project_version = download_helper.GetLatestVersionWithAPI(None)
-
     download_url = download_helper.GetDownloadURL(
-        self._PROJECT_NAME, project_version)
+        self._PROJECT_NAME, self._PROJECT_VERSION)
 
     expected_download_url = (
         'https://github.com/{0:s}/{1:s}/releases/download/{3:s}/'
         '{1:s}-{2:s}-{3:s}.tar.gz').format(
             self._PROJECT_ORGANIZATION, self._PROJECT_NAME,
-            self._PROJECT_STATUS, project_version)
+            self._PROJECT_STATUS, self._PROJECT_VERSION)
 
     self.assertEqual(download_url, expected_download_url)
 
@@ -121,31 +116,29 @@ class Log2TimelineGitHubReleasesDownloadHelperTest(test_lib.BaseTestCase):
 
   _PROJECT_ORGANIZATION = 'log2timeline'
   _PROJECT_NAME = 'dfvfs'
+  # Hard-coded version to check parsing of GitHub page.
+  _PROJECT_VERSION = '20190128'
 
   def testGetLatestVersion(self):
     """Tests the GetLatestVersion functions."""
     download_helper = github.GitHubReleasesDownloadHelper(self._DOWNLOAD_URL)
 
     latest_version = download_helper.GetLatestVersion(self._PROJECT_NAME, None)
-    latest_version_api = download_helper.GetLatestVersionWithAPI(None)
 
-
-    self.assertEqual(latest_version, latest_version_api)
+    self.assertEqual(latest_version, self._PROJECT_VERSION)
 
   def testGetDownloadURL(self):
     """Tests the GetDownloadURL functions."""
     download_helper = github.GitHubReleasesDownloadHelper(self._DOWNLOAD_URL)
 
-    project_version = download_helper.GetLatestVersionWithAPI(None)
-
     download_url = download_helper.GetDownloadURL(
-        self._PROJECT_NAME, project_version)
+        self._PROJECT_NAME, self._PROJECT_VERSION)
 
     expected_download_url = (
         'https://github.com/{0:s}/{1:s}/releases/download/{2:s}/'
         '{1:s}-{2:s}.tar.gz').format(
             self._PROJECT_ORGANIZATION, self._PROJECT_NAME,
-            project_version)
+            self._PROJECT_VERSION)
 
     self.assertEqual(download_url, expected_download_url)
 

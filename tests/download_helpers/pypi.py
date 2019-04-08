@@ -22,7 +22,6 @@ class PyPIDownloadHelperTest(test_lib.BaseTestCase):
   _DOWNLOAD_URL = 'https://pypi.org/project/dfvfs'
 
   _PROJECT_NAME = 'dfvfs'
-  _PROJECT_VERSION = '20190128'
 
   def testGetLatestVersion(self):
     """Tests the GetLatestVersion functions."""
@@ -39,12 +38,15 @@ class PyPIDownloadHelperTest(test_lib.BaseTestCase):
     """Tests the GetDownloadURL functions."""
     download_helper = pypi.PyPIDownloadHelper(self._DOWNLOAD_URL)
 
+    latest_version_with_api = download_helper.GetLatestVersionWithAPI(
+        self._PROJECT_NAME, None)
+
     expected_download_url_regexp = re.compile(
         r'https://files.pythonhosted.org/packages/'
         r'[\da-f/]+{0:s}-\d{{8}}.tar.gz'.format(self._PROJECT_NAME))
 
     download_url = download_helper.GetDownloadURL(
-        self._PROJECT_NAME, self._PROJECT_VERSION)
+        self._PROJECT_NAME, latest_version_with_api)
 
     # pylint: disable=deprecated-method
     self.assertRegexpMatches(download_url, expected_download_url_regexp)
